@@ -107,10 +107,10 @@ public class TabelLevelAssets {
                     long fileBytesSize = 0L;
                     int fileCount = 0;
                     for (Object op : fileOps) {
-                        JSONObject jop = (JSONObject) op;
-                        Object arry = jop.get("array");
-                        String binary = arry.toString();
-                        byte[] decode = Base64.getDecoder().decode(binary);
+                        //JSONObject jop = (JSONObject) op;
+                        //Object arry = jop.get("array");
+                        //String binary = arry.toString();
+                        byte[] decode = Base64.getDecoder().decode(op.toString());
                         String fileOp = new String(decode, StandardCharsets.UTF_8);
                         AssetsUtils assetsUtils = new AssetsUtils();
                         String[] fileOpsString = assetsUtils.parseFileOpsString(fileOp);
