@@ -16,7 +16,7 @@
         <scala.version>2.12.10</scala.version>
         <kafka.client.version>3.3.1</kafka.client.version>
         <log4j.version>2.17.2</log4j.version>
-        <cdc.version>2.4.2</cdc.version>
+        <cdc.version>3.0.0</cdc.version>
         <local.scope>provided</local.scope>
     </properties>
     <dependencies>
@@ -149,7 +149,19 @@
             <version>3.1.1-1.17</version>
             <scope>${local.scope}</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.parquet</groupId>
+            <artifactId>parquet-hadoop-bundle</artifactId>
+            <version>1.12.3</version>
+            <scope>test</scope>
+        </dependency>
 
+        <!--The following 3 are required to run tests with access to s3/hdfs-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.0.0-jre</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-s3-fs-hadoop</artifactId>
@@ -205,16 +217,16 @@
             <scope>${local.scope}</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.hudi</groupId>
-            <artifactId>hudi-flink1.17-bundle</artifactId>
-            <version>0.14.1</version>
-            <scope>${local.scope}</scope>
-        </dependency>
-        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-core -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>3.3.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
         <dependency>
@@ -222,7 +234,10 @@
             <artifactId>hive-exec</artifactId>
             <version>3.1.3</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.paimon/paimon-flink-action -->
+        <!-- https://mvnrepository.com/artifact/org.apache.paimon/paimon-flink-1.17 -->
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

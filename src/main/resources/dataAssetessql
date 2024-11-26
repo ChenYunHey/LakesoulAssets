@@ -1,0 +1,41 @@
+CREATE TABLE public.table_level_assets (
+    table_id character varying NOT NULL,
+    table_name character varying,
+    domain character varying,
+    creator character varying,
+    namespace character varying,
+    partition_counts integer,
+    file_counts integer,
+    file_total_size bigint
+);
+ALTER TABLE ONLY public.table_level_assets
+    ADD CONSTRAINT table_level_assets_pkey PRIMARY KEY (table_id);
+CREATE TABLE public.domain_level_assets (
+    domain text NOT NULL,
+    table_counts integer,
+    partition_counts integer,
+    file_counts integer,
+    file_total_size bigint
+);
+ALTER TABLE ONLY public.domain_level_assets
+    ADD CONSTRAINT domain_level_assets_pkey PRIMARY KEY (domain);
+CREATE TABLE public.user_level_assets (
+    creator text NOT NULL,
+    domain_counts integer,
+    namespace_counts integer,
+    table_counts integer,
+    partition_counts integer,
+    file_counts integer,
+    file_total_size bigint
+);
+ALTER TABLE ONLY public.user_level_assets
+    ADD CONSTRAINT user_level_assets_pkey PRIMARY KEY (creator);
+CREATE TABLE public.namespace_level_assets (
+    namespace text NOT NULL,
+    table_counts integer,
+    partition_counts integer,
+    file_counts integer,
+    file_total_size bigint
+);
+ALTER TABLE ONLY public.namespace_level_assets
+    ADD CONSTRAINT namespace_level_assets_pkey PRIMARY KEY (namespace);
