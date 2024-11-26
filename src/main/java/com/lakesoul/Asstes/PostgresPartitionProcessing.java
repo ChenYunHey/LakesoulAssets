@@ -1,10 +1,12 @@
 
 package com.lakesoul.Asstes;
 
+import com.lakesoul.Asstes.util.SourceOptions;
 import com.ververica.cdc.connectors.base.source.jdbc.JdbcIncrementalSource;
 import com.ververica.cdc.connectors.postgres.source.PostgresSourceBuilder;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.tuple.*;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
@@ -19,26 +21,45 @@ import java.util.Properties;
 
 
 public class PostgresPartitionProcessing {
+    private static String host;
+    private static String dbName;
+    private static String userName;
+    private static String passWord;
+    private static int port;
+    private static int splitSize;
+    private static String slotName;
+    private static String pluginName;
+    private static String schemaList;
     public static void main(String[] args) throws Exception {
+        ParameterTool parameter = ParameterTool.fromArgs(args);
+        userName = parameter.get(SourceOptions.SOURCE_DB_USER.key());
+        dbName = parameter.get(SourceOptions.SOURCE_DB_DB_NAME.key());
+        passWord = parameter.get(SourceOptions.SOURCE_DB_PASSWORD.key());
+        host = parameter.get(SourceOptions.SOURCE_DB_HOST.key());
+        port = parameter.getInt(SourceOptions.SOURCE_DB_PORT.key());
+        slotName = parameter.get(SourceOptions.SLOT_NAME.key());
+        pluginName = parameter.get(SourceOptions.PLUG_NAME.key());
+        splitSize = parameter.getInt(SourceOptions.SPLIT_SIZE.key(),SourceOptions.SPLIT_SIZE.defaultValue());
+        schemaList = parameter.get(SourceOptions.SCHEMA_LIST.key());
 
         PgDeserialization deserialization = new PgDeserialization();
         Properties debeziumProperties = new Properties();
         debeziumProperties.setProperty("include.unknown.datatypes", "true");
-        String[] tableList = new String[]{"public.partition_info","public.table_info","public.data_commit_info"};
+        String[] tableList = new String[]{schemaList+".partition_info",schemaList+".table_info",schemaList+".data_commit_info"};
         JdbcIncrementalSource<String> postgresIncrementalSource =
                 PostgresSourceBuilder.PostgresIncrementalSource.<String>builder()
-                        .hostname("localhost")
-                        .port(5432)
-                        .database("lakesoul_test")
-                        .schemaList("public")
+                        .hostname(host)
+                        .port(port)
+                        .database(dbName)
+                        .schemaList(schemaList)
                         .tableList(tableList)
-                        .username("lakesoul_test")
-                        .password("lakesoul_test")
-                        .slotName("flink")
-                        .decodingPluginName("pgoutput") // use pgoutput for PostgreSQL 10+
+                        .username(userName)
+                        .password(passWord)
+                        .slotName(slotName)
+                        .decodingPluginName(pluginName) // use pgoutput for PostgreSQL 10+
                         .deserializer(deserialization)
-                        .includeSchemaChanges(true) // output the schema changes as well
-                        .splitSize(2) // the split size of each snapshot split
+                        .includeSchemaChanges(false) // output the schema changes as well
+                        .splitSize(splitSize) // the split size of each snapshot split
                         .debeziumProperties(debeziumProperties)
                         .build();
 

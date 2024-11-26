@@ -149,13 +149,6 @@
             <version>3.1.1-1.17</version>
             <scope>${local.scope}</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.parquet</groupId>
-            <artifactId>parquet-hadoop-bundle</artifactId>
-            <version>1.12.3</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--The following 3 are required to run tests with access to s3/hdfs-->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -174,7 +167,6 @@
             <version>3.3.2</version>
             <scope>${local.scope}</scope>
         </dependency>
-
         <!--flink-sql-submitter-->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -183,16 +175,6 @@
             <scope>${local.scope}</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.parquet</groupId>
-            <artifactId>parquet-column</artifactId>
-            <version>1.12.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.furyio</groupId>
-            <artifactId>fury-core</artifactId>
-            <version>0.4.0</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_2.12</artifactId>
@@ -203,10 +185,6 @@
                 <exclusion>
                     <groupId>org.scala-lang</groupId>
                     <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -221,18 +199,6 @@
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
             <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-core -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-mapreduce-client-core</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-exec</artifactId>
-            <version>3.1.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.paimon/paimon-flink-action -->
         <!-- https://mvnrepository.com/artifact/org.apache.paimon/paimon-flink-1.17 -->
